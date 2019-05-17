@@ -15,6 +15,16 @@ def detect_text(path):
 
     response = client.text_detection(image=image)
     texts = response.text_annotations
+    print('Texts:')
+
+    for text in texts:
+        print('\n"{}"'.format(text.description))
+
+        vertices = (['({},{})'.format(vertex.x, vertex.y)
+                    for vertex in text.bounding_poly.vertices])
+
+        print('bounds: {}'.format(','.join(vertices)))
+
 
 
 if __name__ == '__main__':
