@@ -1,5 +1,7 @@
 import argparse
 import asyncio
+import logging
+import os
 from pdf2image import convert_from_path
 
 logging.basicConfig(
