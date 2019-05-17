@@ -4,7 +4,6 @@ import numpy as np
 import gc
 from collections import Counter
 
-
 class keywordfunction:
     def __init__(self, StringBox):
         self._StringBox = StringBox
@@ -52,3 +51,43 @@ class keywordfunction:
             del a
             gc.collect()
             cur_index += interval
+        # 메모리문제때문에 키워드 100간격씩 추출하고 메모리 해제
+
+        x1 = np.array(keywords1).flatten()
+        # 일차원배열로
+        unique_x1 = set(x1)
+        # 중복 없애기->집합생성
+
+        dummy = x1.copy().tolist()
+
+        # 중복된거지워주기
+
+        occ = Counter(dummy)
+        # 동일한 값의 자료가 몇개인지 파악
+
+        for wid in list(occ.keys()):
+            if occ[wid] < 1:
+                del occ[wid]
+        # 15개 이하로 나온건 다 제거
+
+        # survived 최종 남은 키워드
+        survived = {}
+        for word in list(occ.keys()):
+            for i, k in enumerate(keywords1):
+                # 열거해서 정렬
+                if word in k:
+                    if text_num[i] not in survived:
+                        survived[text_num[i]] = [word]
+                    else:
+                        survived[text_num[i]].append(word)
+
+
+        survived_articles = list(survived.keys())
+        survived_articles.sort()
+
+        finalkeyword = []
+        for s in survived_articles[:30]:
+            output = [terms[x] for x in survived[s]]
+            finalkeyword.append(output)
+        
+        print(finalkeyword)
