@@ -3,6 +3,12 @@
 import argparse
 import re
 
+def detect_text(path):
+    #Detects text in the file.
+    from google.cloud import vision
+    client = vision.ImageAnnotatorClient()
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(
         description=__doc__,
