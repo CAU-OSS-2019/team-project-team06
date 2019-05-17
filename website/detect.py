@@ -8,6 +8,9 @@ def detect_text(path):
     from google.cloud import vision
     client = vision.ImageAnnotatorClient()
 
+    with io.open(path, 'rb') as image_file:
+        content = image_file.read()
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(
