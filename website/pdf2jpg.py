@@ -8,7 +8,7 @@ def list_pdfs(path='input'):
     return pdfs
 
 def convert_resume_to_text(file_path, dpi=200):
-    pages = pdf_convert(file_path, dpi)
+    pages = convert_from_path(file_path, dpi)
 
 async def convert(path='input', dpi=200):
     try:
