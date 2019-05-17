@@ -2,6 +2,11 @@ import argparse
 import asyncio
 from pdf2image import convert_from_path
 
+def list_pdfs(path='input'):
+    files = os.listdir(path)
+    pdfs = [i for i in files if i.split('.')[-1] == 'pdf']
+    return pdfs
+
 def convert_resume_to_text(file_path, dpi=200):
     pages = pdf_convert(file_path, dpi)
 
