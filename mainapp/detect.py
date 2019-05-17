@@ -17,7 +17,8 @@ def detect_text(image):
     response = client.text_detection(image=image)
     texts = response.text_annotations
     print('Texts:')
-
+    
+    '''
     for text in texts:
         print('\n"{}"'.format(text.description))
 
@@ -25,6 +26,7 @@ def detect_text(image):
                     for vertex in text.bounding_poly.vertices])
 
         print('bounds: {}'.format(','.join(vertices)))
+    '''
 
     return texts
 
