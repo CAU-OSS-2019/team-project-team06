@@ -2,6 +2,11 @@ import argparse
 import asyncio
 from pdf2image import convert_from_path
 
+logging.basicConfig(
+     level=logging.INFO,
+     format= '{%(pathname)s:%(lineno)d} %(levelname)s - %(message)s'`
+)
+
 def list_pdfs(path='input'):
     files = os.listdir(path)
     pdfs = [i for i in files if i.split('.')[-1] == 'pdf']
