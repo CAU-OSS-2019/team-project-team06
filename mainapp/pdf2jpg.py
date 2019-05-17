@@ -26,7 +26,7 @@ def convert_resume_to_text(file_path, dpi=200):
         page_len = len(pages)
         for i, page in enumerate(pages):
             page_text = detect_text(page) #OCR
-            full_text += page_text 
+            full_text += page_text[0].description 
 
             current_page = i + 1
             logging.info('Processing page: {}'.format(current_page))
