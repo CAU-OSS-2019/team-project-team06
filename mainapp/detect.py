@@ -2,16 +2,17 @@
 
 import argparse
 import re
+import io
 
-def detect_text(path):
+def detect_text(image):
     #Detects text in the file.
     from google.cloud import vision
     client = vision.ImageAnnotatorClient()
 
-    with io.open(path, 'rb') as image_file:
-        content = image_file.read()
-
-    image = vision.types.Image(content=content)
+    imgByteArr = io.BytesIO()
+    image.save(imgByteArr, format='png')
+    image = imgByteArr.getvalue()
+    image = vision.types.Image(content=image)
 
     response = client.text_detection(image=image)
     texts = response.text_annotations
