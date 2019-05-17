@@ -36,3 +36,4 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
+    detect_text(args.path)
