@@ -6,7 +6,7 @@ from pdf2image import convert_from_path
 
 logging.basicConfig(
      level=logging.INFO,
-     format= '{%(pathname)s:%(lineno)d} %(levelname)s - %(message)s'`
+     format='{%(pathname)s:%(lineno)d} %(levelname)s - %(message)s'
 )
 
 def list_pdfs(path='input'):
