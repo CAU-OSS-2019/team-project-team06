@@ -28,6 +28,22 @@ def convert_resume_to_text(file_path, dpi=200):
             page_text = detect_text(page) #OCR
             full_text += page_text[0].description 
 
+            #highlighting test code
+            invert_img = page.load()
+            compare_string = ['important','audience','competitions','sportsmanship']
+            for text in texts:
+                lower_text = text.description.lower().strip(string.punctuation)
+                if lower_text in compare_string:
+                    start_x = text.bounding_poly.vertices[0].x
+                    start_y = text.bounding_poly.vertices[0].y
+                    end_x = text.bounding_poly.vertices[2].x
+                    end_y = text.bounding_poly.vertices[2].y
+                    for x in range(start_x, end_x):
+                        for y in range(start_y, end_y):
+                            color = invert_img[x,y]
+                            invert_img[x,y] = (255-color[0],255-color[1],255-color[2])
+            page.save("result.png")
+
             current_page = i + 1
             logging.info('Processing page: {}'.format(current_page))
 
