@@ -26,7 +26,7 @@ def detect_text(image):
 
         print('bounds: {}'.format(','.join(vertices)))
 
-
+    return texts
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(
