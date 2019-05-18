@@ -3,9 +3,9 @@ import asyncio
 import logging
 import os
 from pdf2image import convert_from_path
+from .keywordfunction import keywordfunction
 
-import keywordfunction as kf
-from detect import detect_text 
+from .detect import detect_text
 
 logging.basicConfig(
      level=logging.INFO,
@@ -25,28 +25,30 @@ def convert_resume_to_text(file_path, dpi=200):
         logging.info('No. of pages: {}'.format(len(pages)))
         page_len = len(pages)
         for i, page in enumerate(pages):
-            page_text = detect_text(page) #OCR
-            full_text += page_text[0].description 
-
+            texts = detect_text(page) #OCR
+            full_text += texts[0].description
             current_page = i + 1
             logging.info('Processing page: {}'.format(current_page))
-
+        r = keywordfunction(full_text)
+        print(r.MakeKeyword())
     except Exception as e:
         logging.warning('Error: {}'.format(e))
 
     #키워드 추출
     text_list =[full_text]
-    print(r.MakeKeyword())
+    #print(r.MakeKeyword())
 
-async def convert(path='input', dpi=200):
+def convert(path='input', dpi=200):
     try:
         files = list_pdfs(path)
+        print("tq")
         if len(files) > 0:
             for file in files:
+                print("PPPP")
                 file_path = os.path.join(path, file)
                 convert_resume_to_text(file_path, dpi=dpi)
-
-                await asyncio.sleep(0.01)
+                asyncio.sleep(0.01)
+                print("~~~")
     except Exception as e:
         logging.warning('Error: {}'.format(e))
 
@@ -65,3 +67,4 @@ if __name__ == '__main__':
     resume_dir = ap['input']
     loop = asyncio.get_event_loop()
     loop.run_until_complete(main(resume_dir))
+    #convert('media',200)
