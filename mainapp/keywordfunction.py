@@ -94,4 +94,12 @@ class keywordfunction:
             tagged_list.append(pos_tag(i))
         #print(tagged_list)
 
-        return finalkeyword
+        checkbox = []
+        for i in tagged_list:
+            #wordbox = [t[0] for t in i if t[1] == "NN"]
+
+            wordbox2 = [t[0] for t in i if t[1] == "NN" or t[1] == "NNS"]
+            checkbox.append(wordbox2)
+        #print(checkbox)
+
+        return checkbox
