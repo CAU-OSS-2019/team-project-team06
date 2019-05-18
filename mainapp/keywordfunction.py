@@ -94,6 +94,7 @@ class keywordfunction:
             tagged_list.append(pos_tag(i))
         #print(tagged_list)
 
+
         checkbox = []
         for i in tagged_list:
             #wordbox = [t[0] for t in i if t[1] == "NN"]
@@ -102,4 +103,16 @@ class keywordfunction:
             checkbox.append(wordbox2)
         #print(checkbox)
 
-        return checkbox
+        #중복값 및 의미없는 단어
+        finalbox = []
+        for i in checkbox:
+            resultbox = i
+            for k in i:
+                for word in resultbox:
+                    if k == word:
+                        continue
+                    if word in k:
+                        resultbox.remove(word)
+            finalbox.append(resultbox)
+
+        return finalbox
