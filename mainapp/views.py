@@ -10,7 +10,9 @@ from django.template import loader
 from django.views.decorators.csrf import csrf_exempt
 from mainapp.models import UploadFileModel
 from mainapp.models import Post
-
+from .pdf2jpg import convert
+import asyncio
+from Vcsite import settings
 @csrf_exempt
 def upload_file(request):
     if request.method == 'POST':
@@ -30,6 +32,7 @@ def upload_file(request):
     post.pdf = request.FILES.get('uploadfile')
     print(request.FILES.get('uploadfile'))
     post.save()
+    convert('mainapp/input',200)
     '''
     uploadfilemodel = UploadFileModel()
     uploadfilemodel.title = request.POST.get('uploadfile', None)
