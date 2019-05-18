@@ -3,6 +3,7 @@ from sklearn.feature_extraction.text import CountVectorizer
 import numpy as np
 import gc
 from collections import Counter
+from nltk.tag import pos_tag
 
 class keywordfunction:
     def __init__(self, StringBox):
@@ -14,7 +15,7 @@ class keywordfunction:
         text_num = []
         number = 0
         for i in self._StringBox:
-            corpus.append(i)
+            corpus.append(i.replace("\n", " "))
             text_num.append(number)
             number += 1
 
@@ -42,8 +43,8 @@ class keywordfunction:
             vf = v.fit_transform(corpus[cur_index:cur_index + interval])
             a = vf.toarray()
 
-            for article in a:
-                x = np.copy((np.log10(article + 1) * idfs * custom_weight1).argsort()[-20:][::-1])
+            for data in a:
+                x = np.copy((np.log10(data + 1) * idfs * custom_weight1).argsort()[-20:][::-1])
                 keywords1.append(x)
 
             del v
@@ -54,10 +55,8 @@ class keywordfunction:
         # 메모리문제때문에 키워드 100간격씩 추출하고 메모리 해제
 
         x1 = np.array(keywords1).flatten()
-        # 일차원배열로
-        unique_x1 = set(x1)
-        # 중복 없애기->집합생성
 
+        # 중복 없애기->집합생성
         dummy = x1.copy().tolist()
 
         # 중복된거지워주기
@@ -89,5 +88,31 @@ class keywordfunction:
         for s in survived_articles[:30]:
             output = [terms[x] for x in survived[s]]
             finalkeyword.append(output)
-        
-        print(finalkeyword)
+
+        tagged_list = []
+        for i in finalkeyword:
+            tagged_list.append(pos_tag(i))
+        #print(tagged_list)
+
+
+        checkbox = []
+        for i in tagged_list:
+            #wordbox = [t[0] for t in i if t[1] == "NN"]
+
+            wordbox2 = [t[0] for t in i if t[1] == "NN" or t[1] == "NNS"]
+            checkbox.append(wordbox2)
+        #print(checkbox)
+
+        #중복값 및 의미없는 단어
+        finalbox = []
+        for i in checkbox:
+            resultbox = i
+            for k in i:
+                for word in resultbox:
+                    if k == word:
+                        continue
+                    if word in k:
+                        resultbox.remove(word)
+            finalbox.append(resultbox)
+
+        return finalbox
