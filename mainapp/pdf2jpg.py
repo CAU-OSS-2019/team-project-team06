@@ -3,9 +3,9 @@ import asyncio
 import logging
 import os
 from pdf2image import convert_from_path
-from .keywordfunction import keywordfunction
+import keywordfunction as kf
 
-from .detect import detect_text
+from detect import detect_text
 
 logging.basicConfig(
      level=logging.INFO,
@@ -29,16 +29,16 @@ def convert_resume_to_text(file_path, dpi=200):
             full_text += texts[0].description
             current_page = i + 1
             logging.info('Processing page: {}'.format(current_page))
-        r = keywordfunction(full_text)
-        print(r.MakeKeyword())
+        #r = keywordfunction(full_text)
+        #print(r.MakeKeyword())
+        return full_text
     except Exception as e:
         logging.warning('Error: {}'.format(e))
 
-    #키워드 추출
-    text_list =[full_text]
-    #print(r.MakeKeyword())
+
 
 def convert(path='input', dpi=200):
+    full_text_list = []
     try:
         files = list_pdfs(path)
         print("tq")
@@ -46,19 +46,24 @@ def convert(path='input', dpi=200):
             for file in files:
                 print("PPPP")
                 file_path = os.path.join(path, file)
-                convert_resume_to_text(file_path, dpi=dpi)
+                full_text_list.append(convert_resume_to_text(file_path, dpi=dpi))
                 asyncio.sleep(0.01)
                 print("~~~")
+            #print(full_text_list)
+            r = kf.keywordfunction(full_text_list)
+            print(r.MakeKeyword())
+
     except Exception as e:
         logging.warning('Error: {}'.format(e))
+
 
 async def main(path, dpi=200):
     await asyncio.wait([
         convert(path=path, dpi=dpi)
     ])
 
-if __name__ == '__main__':
 
+if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='PDF to JPG')
     parser.add_argument('-i', '--input', required=True,
                         help="Input dir containing PDF files")
@@ -67,4 +72,4 @@ if __name__ == '__main__':
     resume_dir = ap['input']
     loop = asyncio.get_event_loop()
     loop.run_until_complete(main(resume_dir))
-    #convert('media',200)
+    # convert('media',200)
