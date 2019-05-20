@@ -16,7 +16,6 @@ def detect_text(image):
 
     response = client.text_detection(image=image)
     texts = response.text_annotations
-    print('Texts:')
     
     '''
     for text in texts:
