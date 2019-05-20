@@ -61,5 +61,6 @@ def highlight(files, texts_list, keyword_list):
                                             invert_img[x,y] = (255-color[0],255-color[1],255-color[2])
                     before_word = word
                     before_lower_word = lower_word 
+            result_file_name = 'result{}-{}.png'.format(i, j)
+            page.save(result_file_name);
 
-                    
