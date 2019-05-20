@@ -21,14 +21,9 @@ class keywordfunction:
 
         num_docs = len(corpus)
 
-        # 문서집합에서 단어토 생성 후 토큰 빈도 수 세고 인코딩 벡터 만들
         v = CountVectorizer(ngram_range=(1, 2), binary=True, stop_words='english', min_df=1)
-
         vf = v.fit_transform(corpus)
-
-        # min_df는 단어장에 포함되기 위한 최소 빈도
-        # fit변환계수 추정, transform
-
+        
         terms = v.get_feature_names()
         freqs = np.asarray(vf.sum(axis=0).ravel())[0]
         idfs = [math.log10(num_docs / f) for f in freqs]
@@ -81,13 +76,11 @@ class keywordfunction:
                         survived[text_num[i]].append(word)
 
 
-        survived_articles = list(survived.keys())
-        survived_articles.sort()
-
         finalkeyword = []
-        for s in survived_articles[:30]:
+        for s in text_num:
             output = [terms[x] for x in survived[s]]
             finalkeyword.append(output)
+        #print(finalkeyword)
 
         tagged_list = []
         for i in finalkeyword:
@@ -97,11 +90,8 @@ class keywordfunction:
 
         checkbox = []
         for i in tagged_list:
-            #wordbox = [t[0] for t in i if t[1] == "NN"]
-
             wordbox2 = [t[0] for t in i if t[1] == "NN" or t[1] == "NNS"]
             checkbox.append(wordbox2)
-        #print(checkbox)
 
         #중복값 및 의미없는 단어
         finalbox = []
@@ -111,8 +101,10 @@ class keywordfunction:
                 for word in resultbox:
                     if k == word:
                         continue
-                    if word in k:
-                        resultbox.remove(word)
-            finalbox.append(resultbox)
+                    elif word in k:
+                        i.remove(word)
+                    else:
+                        continue
+            finalbox.append(i)
 
         return finalbox
