@@ -3,10 +3,10 @@ import asyncio
 import logging
 import os
 from pdf2image import convert_from_path
-import keywordfunction as kf
+import mainapp.keywordfunction as kf
 
-from detect import detect_text
-from highlight import highlight
+from mainapp.detect import detect_text
+from mainapp.highlight import highlight
 
 logging.basicConfig(
      level=logging.INFO,

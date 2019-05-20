@@ -10,7 +10,7 @@ from django.template import loader
 from django.views.decorators.csrf import csrf_exempt
 from mainapp.models import UploadFileModel
 from mainapp.models import Post
-from .pdf2jpg import convert
+from mainapp.pdf2jpg import convert
 import asyncio
 from Vcsite import settings
 @csrf_exempt
