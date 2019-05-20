@@ -6,6 +6,7 @@ from pdf2image import convert_from_path
 import keywordfunction as kf
 
 from detect import detect_text
+from highlight import highlight
 
 logging.basicConfig(
      level=logging.INFO,
@@ -21,17 +22,22 @@ def list_pdfs(path='input'):
 def convert_resume_to_text(file_path, dpi=200):
     pages = convert_from_path(file_path, dpi)
     full_text = ""
+    returnvalue = []
+    texts_list = []
     try:
         logging.info('No. of pages: {}'.format(len(pages)))
         page_len = len(pages)
         for i, page in enumerate(pages):
             texts = detect_text(page) #OCR
+            texts_list.append(texts)
             full_text += texts[0].description
             current_page = i + 1
             logging.info('Processing page: {}'.format(current_page))
-        #r = keywordfunction(full_text)
-        #print(r.MakeKeyword())
-        return full_text
+
+        returnvalue.append(texts_list)
+        returnvalue.append(full_text)
+        returnvalue.append(pages)
+        return returnvalue
     except Exception as e:
         logging.warning('Error: {}'.format(e))
 
@@ -39,19 +45,21 @@ def convert_resume_to_text(file_path, dpi=200):
 
 def convert(path='input', dpi=200):
     full_text_list = []
+    full_texts_info = []
+    full_page_list = []
     try:
         files = list_pdfs(path)
-        print("tq")
         if len(files) > 0:
             for file in files:
-                print("PPPP")
                 file_path = os.path.join(path, file)
-                full_text_list.append(convert_resume_to_text(file_path, dpi=dpi))
+                convert_data = convert_resume_to_text(file_path, dpi=dpi)
+                full_texts_info.append(convert_data[0])
+                full_text_list.append(convert_data[1])
+                full_page_list.append(convert_data[2])                                                
                 asyncio.sleep(0.01)
-                print("~~~")
-            #print(full_text_list)
             r = kf.keywordfunction(full_text_list)
             print(r.MakeKeyword())
+            highlight(full_page_list, full_texts_info, r.MakeKeyword())
 
     except Exception as e:
         logging.warning('Error: {}'.format(e))
