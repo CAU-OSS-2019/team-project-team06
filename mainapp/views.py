@@ -13,6 +13,8 @@ from mainapp.models import Post
 from mainapp.pdf2jpg import convert
 import asyncio
 from Vcsite import settings
+import glob, os, os.path
+
 @csrf_exempt
 def upload_file(request):
     if request.method == 'POST':
@@ -51,6 +53,9 @@ def upload_final(request):
         '''form = UploadFileForm()'''
 
     convert('mainapp/input',200)
+    filelist = glob.glob(os.path.join('mainapp/input',"*"))
+    for f in filelist:
+        os.remove(f)
 
     return render(request, 'mainapp/index.html')
 
