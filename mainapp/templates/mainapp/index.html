@@ -83,7 +83,7 @@
         <div class="col-lg-10 mx-auto">
           <h2>We are working for Highlighting Part</h2>
           <p class="lead mb-5">If you want something, contact please!
-            <a href="https://github.com/janghyukjin">Chung-Ang University</a>!</p>
+            <a href="https://github.com/janghyukjin">Open-Source-Project-team6</a>!</p>
           {% comment %}<a class="btn btn-dark btn-xl js-scroll-trigger" href="#services">Development Overview</a>{% endcomment %}
         </div>
       </div>
@@ -149,10 +149,43 @@
            });
 
       </script>
+      <form action="{% url 'mainapp:send' %}" method="post" name="imageForm" id="final-upload-form" enctype="multipart/form-data" novalidate>{% csrf_token %}
+          <center>
+              <button type="submit" class="btn btn-primary" name="uploadfile" id='upload-btn' value="image">Send</button>
+          </center>
+      </form>
 
       <script>
 
+           function upload(event) {
+               event.preventDefault();
+               var data = new FormData($('#final-upload-form').get(0));
+               $.ajax({
+                   //url: $(this).attr('action'),
+                   //type: $(this).attr('method'),
+                   url: {% url 'mainapp:send' %},
+                   type: 'POST',
+                   data: data,
+                   cache: false,
+                   processData: false,
+                   contentType: false,
+                   success: function(data) {
+                       alert('success');
+                       alert(data);
+                   },
+                   error:function(request,status,error){
+                       alert("실패");
+                       alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                   }
+               });
+               return false;
+           }
+           $(function() {
+               $('#file-upload-form').submit(upload);
+           });
+
       </script>
+
   </section>
 
   <!-- Services -->
@@ -177,20 +210,20 @@
             <i class="icon-pencil"></i>
           </span>
           <h4>
-            <strong>Redesigned</strong>
+            <strong>Highlighting</strong>
           </h4>
-          <p class="text-faded mb-0">Freshly redesigned for Bootstrap 4.</p>
+          <p class="text-faded mb-0">Freshly redesigned for Highlighting</p>
         </div>
         <div class="col-lg-3 col-md-6 mb-5 mb-md-0">
           <span class="service-icon rounded-circle mx-auto mb-3">
             <i class="icon-like"></i>
           </span>
           <h4>
-            <strong>Favorited</strong>
+            <strong>Keywords</strong>
           </h4>
-          <p class="text-faded mb-0">Millions of users
+          <p class="text-faded mb-0">Extracted keywords in your files
             <i class="fas fa-heart"></i>
-            Start Bootstrap!</p>
+          </p>
         </div>
         <div class="col-lg-3 col-md-6">
           <span class="service-icon rounded-circle mx-auto mb-3">
