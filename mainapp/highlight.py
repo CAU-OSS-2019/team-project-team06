@@ -1,8 +1,14 @@
 from PIL import Image
 import string
+from fpdf import FPDF
+import os
 
 def highlight(files, texts_list, keyword_list):
     for i,pages in enumerate(files):
+        width, height = pages[0].size
+        pdf = FPDF(unit="pt", format= [width,height] )
+        pdf.set_auto_page_break(0)
+
         for j, page in enumerate(pages):
             invert_img = page.load()
             for k, word in enumerate(texts_list[i][j]):
@@ -62,5 +68,11 @@ def highlight(files, texts_list, keyword_list):
                     before_word = word
                     before_lower_word = lower_word 
             result_file_name = 'result{}-{}.png'.format(i, j)
-            page.save(result_file_name);
+
+            page.save(result_file_name)
+            pdf.add_page()
+            pdf.image(result_file_name)
+            os.remove(result_file_name)
+
+        pdf.output("result-{}.pdf".format(i+1),"F")
 
