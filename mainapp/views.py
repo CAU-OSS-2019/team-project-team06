@@ -32,12 +32,26 @@ def upload_file(request):
     post.pdf = request.FILES.get('uploadfile')
     print(request.FILES.get('uploadfile'))
     post.save()
-    convert('mainapp/input',200)
+    #convert('mainapp/input',200)
     '''
     uploadfilemodel = UploadFileModel()
     uploadfilemodel.title = request.POST.get('uploadfile', None)
     print(request.POST.get('uploadfile'))
     uploadfilemodel.save()'''
+    return render(request, 'mainapp/index.html')
+
+@csrf_exempt
+def upload_final(request):
+    if request.method == 'POST':
+        form = UploadFileForm(data=request.POST, files=request.FILES)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('/mainapp/'))
+    else:
+        '''form = UploadFileForm()'''
+
+    convert('mainapp/input',200)
+
     return render(request, 'mainapp/index.html')
 
 def index(request):
