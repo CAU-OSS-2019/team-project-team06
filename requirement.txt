@@ -1,7 +1,0 @@
-dictop==0.1.4
-Django==2.1.7
-magic-import==0.1.3
-Pillow==6.0.0
-python-magic==0.4.15
-pytz==2018.9
-
