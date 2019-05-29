@@ -19,7 +19,7 @@ To install package
 ```bash
     $ git clone https://github.com/CAU-OSS-2019/team-project-team06.git
     $ cd team-project-team06
-    $ pip install -r requirements.txt
+    $ pip install -r requirement.txt
 ```
 You have to get Google Cloud Vision API key for running this program.
 ```bash
