@@ -1,5 +1,6 @@
 import math
 from sklearn.feature_extraction.text import CountVectorizer
+import nltk
 import numpy as np
 import gc
 from collections import Counter
@@ -8,6 +9,8 @@ from nltk.tag import pos_tag
 class keywordfunction:
     def __init__(self, StringBox):
         self._StringBox = StringBox
+        nltk.download('averaged_perceptron_tagger')
+
 
     def MakeKeyword(self):
         # corpus 전체 말뭉치
@@ -40,6 +43,7 @@ class keywordfunction:
 
             for data in a:
                 x = np.copy((np.log10(data + 1) * idfs * custom_weight1).argsort()[-20:][::-1])
+                #키워드의 weight를 측정
                 keywords1.append(x)
 
             del v
