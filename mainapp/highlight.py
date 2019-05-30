@@ -2,6 +2,7 @@ from PIL import Image
 import string
 from fpdf import FPDF
 import os
+from . import rgb
 
 def highlight(files, texts_list, keyword_list):
     for i,pages in enumerate(files):
@@ -78,7 +79,7 @@ def highlight(files, texts_list, keyword_list):
 
 
 # mix original color with highlight color (use subtractive mixing)
-def apply_highlight_color(origin_rgb, highlight_rgb=(255, 255, 0)):
+def apply_highlight_color(origin_rgb, highlight_rgb=rgb.YELLOW):
     output_rgb = tuple(
         map(lambda x: max(0, min(255, int(x))),
             (
