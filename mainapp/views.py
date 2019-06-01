@@ -15,6 +15,8 @@ import asyncio
 from Vcsite import settings
 import glob, os, os.path
 
+import threading
+
 @csrf_exempt
 def upload_file(request):
     if request.method == 'POST':
@@ -42,6 +44,12 @@ def upload_file(request):
     uploadfilemodel.save()'''
     return render(request, 'mainapp/index.html')
 
+def convert_thread(path,dpi):
+    convert(path,dpi)
+    filelist = glob.glob(os.path.join(path,"*"))
+    for f in filelist:
+        os.remove(f)
+
 @csrf_exempt
 def upload_final(request):
     if request.method == 'POST':
@@ -51,12 +59,12 @@ def upload_final(request):
             return HttpResponseRedirect(reverse('/mainapp/'))
     else:
         '''form = UploadFileForm()'''
-
-    convert('mainapp/input',200)
-    filelist = glob.glob(os.path.join('mainapp/input',"*"))
-    for f in filelist:
-        os.remove(f)
-
+    thread = threading.Thread(target=convert_thread,
+                                args=(
+                                    'mainapp/input',
+                                    200,
+                                    ))
+    thread.start()
     return render(request, 'mainapp/index.html')
 
 def index(request):
