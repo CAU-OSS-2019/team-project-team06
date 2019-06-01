@@ -7,6 +7,7 @@ from .forms import UploadFileModel
 # Create your views here.
 from django.http import HttpResponse
 from django.template import loader
+from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
 from mainapp.models import UploadFileModel
 from mainapp.models import Post
@@ -53,19 +54,21 @@ def convert_thread(path,dpi):
 @csrf_exempt
 def upload_final(request):
     if request.method == 'POST':
-        form = UploadFileForm(data=request.POST, files=request.FILES)
+        form = UploadFileForm(request.POST, request.FILES)
+
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect(reverse('/mainapp/'))
-    else:
-        '''form = UploadFileForm()'''
-    thread = threading.Thread(target=convert_thread,
+            thread = threading.Thread(target=convert_thread,
                                 args=(
                                     'mainapp/input',
                                     200,
                                     ))
-    thread.start()
-    return render(request, 'mainapp/index.html')
+            thread.start()
+            messages.success(request, "Upload successfully. Start converting..")
+        else:
+            messages.error(request, "Upload fail!")
+
+    return HttpResponseRedirect(reverse('mainapp:index'))
 
 def index(request):
     template = loader.get_template('mainapp/index.html')
