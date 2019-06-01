@@ -22,9 +22,6 @@ class keywordfunction:
             number += 1
 
         num_docs = len(corpus)
-        for i in corpus:
-            print(len(i))
-        print(num_docs)
         v = CountVectorizer(ngram_range=(1, 2), binary=True, stop_words='english', min_df=1)
         vf = v.fit_transform(corpus)
 
@@ -41,16 +38,9 @@ class keywordfunction:
 
         # word 의 weight 계산
         for data in a:
-            zero_weight = []
             word_weight = np.copy((np.log10(data + 1) * idfs * custom_weight1))
-            for i, weight in enumerate(word_weight):
-                if weight == 0:
-                    zero_weight.append(i)
-            # weight이 '0'인 단어들 제거
-            new_word_weight = np.delete(word_weight, zero_weight)
-
             # TOP20만 출력
-            x = new_word_weight.argsort()[-20:][::-1]
+            x = word_weight.argsort()[-20:][::-1]
             keywords1.append(x)
 
         x1 = np.array(keywords1).flatten()
