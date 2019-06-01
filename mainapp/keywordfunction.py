@@ -22,6 +22,9 @@ class keywordfunction:
             number += 1
 
         num_docs = len(corpus)
+        for words in corpus:
+            total_word += (len(words.split()))
+            #print(total_word)
         v = CountVectorizer(ngram_range=(1, 2), binary=True, stop_words='english', min_df=1)
         vf = v.fit_transform(corpus)
 
@@ -33,14 +36,15 @@ class keywordfunction:
         keywords1 = []
 
         v = CountVectorizer(ngram_range=(1, 2), stop_words='english', vocabulary=terms, min_df=1)
-        vf = v.fit_transform(corpus)
+        vf = v.fit_transform(corpus[num_docs])
         a = vf.toarray()
 
         # word 의 weight 계산
         for data in a:
+            total_keyword_num = divmod(total_word, 900)[0] * (-1)
             word_weight = np.copy((np.log10(data + 1) * idfs * custom_weight1))
-            # TOP20만 출력
-            x = word_weight.argsort()[-20:][::-1]
+            x = word_weight.argsort()[total_keyword_num:][::-1]
+            # 키워드의 weight를 측정
             keywords1.append(x)
 
         x1 = np.array(keywords1).flatten()
