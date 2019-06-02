@@ -112,9 +112,45 @@
           </center>
       </div>{% endcomment %}
 
-      <form action="{% url 'mainapp:send' %}" method="post" name="imageForm" id="file-upload-form" enctype="multipart/form-data">{% csrf_token %}
+      <form action="{% url 'mainapp:upload' %}" method="post" name="imageForm" id="file-upload-form" enctype="multipart/form-data">{% csrf_token %}
           <center>
               <input type="file" name="file" id="id_file" accept="application/pdf" required/>
+              <button type="submit" class="btn btn-primary" name="uploadfile" id='upload-btn' value="image">Upload</button>
+          </center>
+      </form>
+
+      <script>
+
+           function upload(event) {
+               event.preventDefault();
+               var data = new FormData($('#file-upload-form').get(0));
+               $.ajax({
+                   //url: $(this).attr('action'),
+                   //type: $(this).attr('method'),
+                   url: {% url 'mainapp:upload' %},
+                   type: 'POST',
+                   data: data,
+                   cache: false,
+                   processData: false,
+                   contentType: false,
+                   success: function(data) {
+                       alert('success');
+                       alert(data);
+                   },
+                   error:function(request,status,error){
+                       alert("실패");
+                       alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                   }
+               });
+               return false;
+           }
+           $(function() {
+               $('#file-upload-form').submit(upload);
+           });
+
+      </script>
+      <form action="{% url 'mainapp:send' %}" method="post" name="imageForm" id="final-upload-form" enctype="multipart/form-data" novalidate>{% csrf_token %}
+          <center>
               <button type="submit" class="btn btn-primary" name="uploadfile" id='upload-btn' value="image">Send</button>
           </center>
       </form>
