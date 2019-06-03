@@ -16,12 +16,18 @@ class keywordfunction:
         corpus = []
         text_num = []
         number = 0
+        total_word = 0
+
         for i in self._StringBox:
             corpus.append(i.replace("\n", " "))
             text_num.append(number)
             number += 1
 
+        #파일의 갯수 측정
         num_docs = len(corpus)
+
+
+        #총 단어 갯수 측정
         for words in corpus:
             total_word += (len(words.split()))
             #print(total_word)
@@ -36,7 +42,7 @@ class keywordfunction:
         keywords1 = []
 
         v = CountVectorizer(ngram_range=(1, 2), stop_words='english', vocabulary=terms, min_df=1)
-        vf = v.fit_transform(corpus[num_docs])
+        vf = v.fit_transform(corpus[0: num_docs])
         a = vf.toarray()
 
         # word 의 weight 계산
