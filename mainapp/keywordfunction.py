@@ -2,10 +2,8 @@ import math
 from sklearn.feature_extraction.text import CountVectorizer
 import nltk
 import numpy as np
-import gc
 from collections import Counter
 from nltk.tag import pos_tag
-
 
 class keywordfunction:
     def __init__(self, StringBox):
@@ -17,16 +15,12 @@ class keywordfunction:
         corpus = []
         text_num = []
         number = 0
-        total_word = 0
-
         for i in self._StringBox:
             corpus.append(i.replace("\n", " "))
             text_num.append(number)
             number += 1
 
         num_docs = len(corpus)
-        for words in corpus:
-            total_word += (len(words.split()))
 
         v = CountVectorizer(ngram_range=(1, 2), binary=True, stop_words='english', min_df=1)
         vf = v.fit_transform(corpus)
@@ -37,27 +31,16 @@ class keywordfunction:
         custom_weight1 = np.array([1 + math.log10(f) for f in freqs])
 
         keywords1 = []
-        amount = 100
-        cur_file = 0
 
-        while cur_file < len(corpus):
-            v = CountVectorizer(ngram_range=(1, 2), stop_words='english', vocabulary=terms, min_df=1)
-            vf = v.fit_transform(corpus[cur_file:cur_file + amount])
-            a = vf.toarray()
+        v = CountVectorizer(ngram_range=(1, 2), stop_words='english', vocabulary=terms, min_df=1)
+        vf = v.fit_transform(corpus[0:num_docs])
+        a = vf.toarray()
 
-            for data in a:
-                total_keyword_num = divmod(total_word, 900)[0] * (-1)
-                word_weight = np.copy((np.log10(data + 1) * idfs * custom_weight1))
-                x = word_weight.argsort()[total_keyword_num:][::-1]
-                # 키워드의 weight를 측정
-                keywords1.append(x)
-
-            del v
-            del vf
-            del a
-            gc.collect()
-            cur_file += amount
-        # 메모리문제때문에 키워드 100간격씩 추출하고 메모리 해제
+        for data in a:
+            word_weight = np.copy((np.log10(data + 1) * idfs * custom_weight1))
+            # TOP20만 출력
+            x = word_weight.argsort()[-20:][::-1]
+            keywords1.append(x)
 
         x1 = np.array(keywords1).flatten()
 
@@ -72,6 +55,7 @@ class keywordfunction:
         for wid in list(occ.keys()):
             if occ[wid] < 1:
                 del occ[wid]
+        # 15개 이하로 나온건 다 제거
 
         # survived 최종 남은 키워드
         survived = {}
