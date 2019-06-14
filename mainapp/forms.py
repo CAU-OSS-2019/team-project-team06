@@ -16,6 +16,7 @@ class UploadFileForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(UploadFileForm, self).__init__(*args, **kwargs)
+        self.fields['title'].required = False
         self.fields['file'].required = False
 
 class UploadFileForm2(forms.ModelForm):

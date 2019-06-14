@@ -112,9 +112,9 @@
           </center>
       </div>{% endcomment %}
 
-      <form action="{% url 'mainapp:upload' %}" method="post" name="imageForm" id="file-upload-form" enctype="multipart/form-data" novalidate>{% csrf_token %}
+      <form action="{% url 'mainapp:upload' %}" method="post" name="imageForm" id="file-upload-form" enctype="multipart/form-data">{% csrf_token %}
           <center>
-              <input type="file" name="uploadfile" id="id_file" />
+              <input type="file" name="file" id="id_file" accept="application/pdf" required/>
               <button type="submit" class="btn btn-primary" name="uploadfile" id='upload-btn' value="image">Upload</button>
           </center>
       </form>
@@ -363,6 +363,15 @@
   <script src='{% static "mainapp/js/stylish-portfolio.js" %}'></script>
   <script src='{% static "mainapp/js/canvas.js" %}'></script>
 
+  <script>
+    $(document).ready(function() {
+      {% if messages %}
+        {% for message in messages %}
+          alert("{{ message }}");
+        {% endfor %}
+      {% endif %}
+    });
+  </script>
 
 </body>
 
