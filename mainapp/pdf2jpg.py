@@ -24,6 +24,7 @@ def convert_resume_to_text(file_path, dpi=200):
     full_text = ""
     returnvalue = []
     texts_list = []
+    page_count = 0
     try:
         logging.info('No. of pages: {}'.format(len(pages)))
         page_len = len(pages)
@@ -31,12 +32,14 @@ def convert_resume_to_text(file_path, dpi=200):
             texts = detect_text(page) #OCR
             texts_list.append(texts)
             full_text += texts[0].description
+            page_count += 1
             current_page = i + 1
             logging.info('Processing page: {}'.format(current_page))
 
         returnvalue.append(texts_list)
         returnvalue.append(full_text)
         returnvalue.append(pages)
+        returnvalue.append(page_count)
         return returnvalue
     except Exception as e:
         logging.warning('Error: {}'.format(e))
@@ -55,7 +58,8 @@ def convert(path='input', dpi=200):
                 convert_data = convert_resume_to_text(file_path, dpi=dpi)
                 full_texts_info.append(convert_data[0])
                 full_text_list.append(convert_data[1])
-                full_page_list.append(convert_data[2])                                                
+                full_page_list.append(convert_data[2])
+                page_count = convert_data[3]
                 asyncio.sleep(0.01)
             r = kf.keywordfunction(full_text_list)
             print(r.MakeKeyword())
