@@ -21,11 +21,12 @@ To install package
     $ cd team-project-team06
     $ pip install -r requirement.txt
 ```
+Also install poppler package in https://github.com/Belval/pdf2image
+
 You have to get Google Cloud Vision API key for running this program.
 ```bash
     $ export GOOGLE_APPLICATION_CREDENTIALS="/my key location.json"
 ```
-
 ## Getting Started in Web
 ------------------------------
 ```bash
