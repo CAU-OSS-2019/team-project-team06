@@ -2,7 +2,7 @@ cachetools==3.1.0
 certifi==2019.3.9
 chardet==3.0.4
 dictop==0.1.4
-Django==2.1.9
+Django==2.1.7
 fpdf==1.7.2
 google-api-core==1.11.0
 google-auth==1.6.3
@@ -15,6 +15,7 @@ nltk==3.4.1
 numpy==1.16.3
 pdf2image==1.5.4
 Pillow==6.0.0
+pkg-resources==0.0.0
 protobuf==3.7.1
 pyasn1==0.4.5
 pyasn1-modules==0.2.5
