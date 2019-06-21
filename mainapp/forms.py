@@ -19,6 +19,7 @@ class UploadFileForm(forms.ModelForm):
         self.fields['title'].required = False
         self.fields['file'].required = False
 
+
 class UploadFileForm2(forms.ModelForm):
     class Meta:
         model = Post

@@ -114,7 +114,7 @@
 
       <form action="{% url 'mainapp:upload' %}" method="post" name="imageForm" id="file-upload-form" enctype="multipart/form-data">{% csrf_token %}
           <center>
-              <input type="file" name="file" id="id_file" accept="application/pdf" required/>
+              <input multiple="multiple" type="file" name="file" id="id_file" accept="application/pdf" required/>
               <button type="submit" class="btn btn-primary" name="uploadfile" id='upload-btn' value="image">Upload</button>
           </center>
       </form>
@@ -123,7 +123,11 @@
 
            function upload(event) {
                event.preventDefault();
-               var data = new FormData($('#file-upload-form').get(0));
+               // Get multiple file data and append that on one object.
+               let data = new FormData();
+               $.each($("#upload_file")[0].files, function(i, file) {
+                   data.append("file", file);
+               });
                $.ajax({
                    //url: $(this).attr('action'),
                    //type: $(this).attr('method'),

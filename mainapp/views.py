@@ -22,10 +22,14 @@ import threading
 def upload_file(request):
     if request.method == 'POST':
         form = UploadFileForm(data=request.POST, files=request.FILES)
+        
         print(form.files)
 
         if form.is_valid():
-            form.save()
+            # Make instance of all files.
+            for f in request.FILES.getlist('file'):
+                instance = UploadFileModel(title= f.name, file=f)
+                instance.save()
             messages.success(request, "Upload successfully.")
             print("upload-success")
         else:
