@@ -45,8 +45,7 @@ def convert_resume_to_text(file_path, dpi=200):
         logging.warning('Error: {}'.format(e))
 
 
-
-def convert(path='input', dpi=200):
+def convert(path='input', dpi=200, color='YELLOW'):
     full_text_list = []
     full_texts_info = []
     full_page_list = []
@@ -63,7 +62,7 @@ def convert(path='input', dpi=200):
                 asyncio.sleep(0.01)
             r = kf.keywordfunction(full_text_list)
             print(r.MakeKeyword())
-            highlight(full_page_list, full_texts_info, r.MakeKeyword())
+            highlight(full_page_list, full_texts_info, r.MakeKeyword(), color)
 
     except Exception as e:
         logging.warning('Error: {}'.format(e))
@@ -71,7 +70,7 @@ def convert(path='input', dpi=200):
 
 async def main(path, dpi=200):
     await asyncio.wait([
-        convert(path=path, dpi=dpi)
+        convert(path=path, dpi=dpi, color='YELLOW')
     ])
 
 

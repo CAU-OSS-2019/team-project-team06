@@ -148,11 +148,23 @@
                $('#file-upload-form').submit(upload);
            });
 
+
       </script>
       <form action="{% url 'mainapp:send' %}" method="post" name="imageForm" id="final-upload-form" enctype="multipart/form-data" novalidate>{% csrf_token %}
-          <center>
+        <br>
+	     <center> 
+	      <span id="span1">
+	      <select name="color">
+		      <option value="">select color</option>
+		      <option value="YELLOW">YELLOW</option>
+		      <option value="RED">RED</option>
+		      <option value="BLUE">BLUE</option>
+	      </select>
+          </span>
+          <span id="span2" >
               <button type="submit" class="btn btn-primary" name="uploadfile" id='upload-btn' value="image">Send</button>
-          </center>
+	    </span>
+        </center>
       </form>
 
       <script>

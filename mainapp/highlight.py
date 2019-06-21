@@ -4,7 +4,13 @@ from fpdf import FPDF
 import os
 from . import rgb
 
-def highlight(files, texts_list, keyword_list):
+def highlight(files, texts_list, keyword_list, color_for_hl = 'YELLOW'):
+    if color_for_hl == 'YELLOW':
+        color_hl = rgb.YELLOW
+    elif color_for_hl == 'RED':
+        color_hl = rgb.RED
+    elif color_for_hl == 'BLUE':
+        color_hl = rgb.BLUE
 
     for i,pages in enumerate(files):
         width, height = pages[0].size
@@ -67,7 +73,7 @@ def highlight(files, texts_list, keyword_list):
 
 
 # mix original color with highlight color (use subtractive mixing)
-def apply_highlight_color(origin_rgb, highlight_rgb=(255, 255, 0)):
+def apply_highlight_color(origin_rgb, highlight_rgb=rgb.YELLOW):
     output_rgb = tuple(
         map(lambda x: max(0, min(255, int(x))),
             (

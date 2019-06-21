@@ -45,6 +45,9 @@ def upload_file(request):
 @csrf_exempt
 def upload_final(request):
     if request.method == 'POST':
+        color = request.POST.get('color','')
+        print(type(color))
+        print(color)
         form = UploadFileForm(data=request.POST, files=request.FILES)
         if form.is_valid():
             form.save()
@@ -52,7 +55,7 @@ def upload_final(request):
     else:
         '''form = UploadFileForm()'''
 
-    convert('mainapp/input',200)
+    convert('mainapp/input', 200, color)
     filelist = glob.glob(os.path.join('mainapp/input',"*"))
     for f in filelist:
         os.remove(f)
