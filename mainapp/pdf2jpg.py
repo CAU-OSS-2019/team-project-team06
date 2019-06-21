@@ -8,12 +8,6 @@ import mainapp.keywordfunction as kf
 from mainapp.detect import detect_text
 from mainapp.highlight import highlight
 
-from queue import Queue
-
-#queueing system using producer-consumer logic
-queue = Queue()
-queue.put(object())
-
 logging.basicConfig(
      level=logging.INFO,
      format='{%(pathname)s:%(lineno)d} %(levelname)s - %(message)s'
@@ -49,8 +43,7 @@ def convert_resume_to_text(file_path, dpi=200):
 
 
 
-def convert(path='input', dpi=200):
-    queue.get()
+def convert(path='input', dpi=200, color='YELLOW'):
     full_text_list = []
     full_texts_info = []
     full_page_list = []
@@ -66,16 +59,15 @@ def convert(path='input', dpi=200):
                 asyncio.sleep(0.01)
             r = kf.keywordfunction(full_text_list)
             print(r.MakeKeyword())
-            highlight(full_page_list, full_texts_info, r.MakeKeyword())
+            highlight(full_page_list, full_texts_info, r.MakeKeyword(), color)
 
     except Exception as e:
         logging.warning('Error: {}'.format(e))
 
-    queue.put(object())
 
 async def main(path, dpi=200):
     await asyncio.wait([
-        convert(path=path, dpi=dpi)
+        convert(path=path, dpi=dpi, color='YELLOW')
     ])
 
 
