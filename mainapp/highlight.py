@@ -74,5 +74,5 @@ def highlight(files, texts_list, keyword_list):
             pdf.image(result_file_name)
             os.remove(result_file_name)
 
-        pdf.output("result-{}.pdf".format(i+1),"F")
+        pdf.output(name="./mainapp/output/result-{}.pdf".format(i+1),"F")
 
