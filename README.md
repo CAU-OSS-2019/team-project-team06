@@ -56,10 +56,10 @@ Press "파일선택" -> "Upload" -> "Send"
 
 ## Test
 -------------------
-
+Put pdf what you want to highlight into 'input' directory
 ```bash
-    $ cd mainapp
-    $ python pdf2jpg.py -i ./input
+    $ cd team-project-team06
+    $ python -m mainapp.pdf2jpg -i mainapp/input
 ```
 
 ## Contribute

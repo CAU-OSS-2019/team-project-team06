@@ -1,12 +1,17 @@
 import argparse
-import asyncio
 import logging
 import os
 from pdf2image import convert_from_path
-import mainapp.keywordfunction as kf
+from . import keywordfunction as kf
 
-from mainapp.detect import detect_text
-from mainapp.highlight import highlight
+from .detect import detect_text
+from .highlight import highlight
+
+from queue import Queue
+
+#queueing system using producer-consumer logic
+queue = Queue()
+queue.put(object())
 
 logging.basicConfig(
      level=logging.INFO,
@@ -44,6 +49,7 @@ def convert_resume_to_text(file_path, dpi=200):
 
 
 def convert(path='input', dpi=200):
+    queue.get()
     full_text_list = []
     full_texts_info = []
     full_page_list = []
@@ -56,7 +62,6 @@ def convert(path='input', dpi=200):
                 full_texts_info.append(convert_data[0])
                 full_text_list.append(convert_data[1])
                 full_page_list.append(convert_data[2])                                                
-                asyncio.sleep(0.01)
             r = kf.keywordfunction(full_text_list)
             print(r.MakeKeyword())
             highlight(full_page_list, full_texts_info, r.MakeKeyword())
@@ -64,11 +69,10 @@ def convert(path='input', dpi=200):
     except Exception as e:
         logging.warning('Error: {}'.format(e))
 
+    queue.put(object())
 
-async def main(path, dpi=200):
-    await asyncio.wait([
-        convert(path=path, dpi=dpi)
-    ])
+def main(path, dpi=200):
+    convert(path=path, dpi=dpi)
 
 
 if __name__ == '__main__':
@@ -78,6 +82,5 @@ if __name__ == '__main__':
 
     ap = vars(parser.parse_args())
     resume_dir = ap['input']
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(main(resume_dir))
+    main(resume_dir)
     # convert('media',200)
