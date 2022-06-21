@@ -12,7 +12,7 @@ grpcio==1.20.1
 idna==2.8
 joblib==0.13.2
 nltk==3.4.1
-numpy==1.16.3
+numpy==1.22.0
 pdf2image==1.5.4
 Pillow==8.2.0
 protobuf==3.7.1
