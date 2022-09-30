@@ -10,7 +10,7 @@ google-cloud-vision==0.36.0
 googleapis-common-protos==1.5.10
 grpcio==1.20.1
 idna==2.8
-joblib==0.13.2
+joblib==1.2.0
 nltk==3.4.1
 numpy==1.16.3
 pdf2image==1.5.4
